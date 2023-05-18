@@ -36,7 +36,12 @@ const UploadFiles = ({ onSetValue, placeholder }) => {
   };
 
   const onDeleteFile = (id) => {
-    console.log(id);
+    const uploaded = [...uploadedFiles];
+    const index = uploaded.findIndex((f) => f.name === id);
+    if (index !== -1) {
+      uploaded.splice(index, 1);
+      setUploadedFiles(uploaded);
+    }
   };
 
   React.useEffect(() => {
@@ -71,16 +76,22 @@ const UploadFiles = ({ onSetValue, placeholder }) => {
         disabled={fileLimit}
       />
       {uploadedFiles.map((file) => (
-        <div
-          style={{
-            lineHeight: '45px',
-            fontFamily: 'Mattone',
-            fontSize: '12px',
-          }}
-        >
-          {file.name}
+        <div style={{ lineHeight: '45px', width: '200px', display: 'flex' }}>
+          <div
+            style={{
+              lineHeight: '45px',
+              fontFamily: 'Mattone',
+              fontSize: '12px',
+              width: '180px',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {file.name}
+          </div>
           <span
-            style={{ marginLeft: '5px' }}
+            style={{ marginLeft: '5px', lineHeight: '45px' }}
             className="pi pi-fw pi-trash"
             onClick={() => onDeleteFile(file.name)}
           ></span>

@@ -1,6 +1,4 @@
 import React from 'react';
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
 
 const UploadReceipt = ({ onSetValue, placeholder }) => {
   const [file, setFile] = React.useState(null);
