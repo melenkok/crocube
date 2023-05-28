@@ -1,18 +1,27 @@
 import React from 'react';
 import '../App.css';
 import logo from '../assets/logo.png';
-import { InputText } from 'primereact/inputtext';
 import InputTextArea from './InputTextArea';
 import UploadReceipt from './UploadReceipt';
 import styled, { keyframes } from 'styled-components';
 import UploadFiles from './UploadFiles';
 import rocket from '../assets/rocket.png';
+import DialogCaptcha from './Dialog';
+import { useNavigate } from 'react-router';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
   const [name, setName] = React.useState('');
   const [surname, setSurame] = React.useState('');
   const [receipt, setReceipt] = React.useState(null);
   const [files, setFiles] = React.useState([]);
+
+  const [seed, setSeed] = React.useState([]);
+
+  const navigate = useNavigate();
+
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
   const dataIsComplete = () => {
     if (name && surname && receipt && files.length > 0) {
@@ -22,13 +31,57 @@ const Home = () => {
     }
   };
 
-  console.log(dataIsComplete());
+  const onAccept = async () => {
+    let formData = new FormData();
 
-  console.log(receipt, files);
+    const folderName = `${name}_${surname}_${Date.now()}`;
+    formData.append('files', receipt);
+    formData.append('files', files[0]);
+    formData.append('files', files[1]);
+    formData.append('folderName', folderName);
+    const response = await fetch(
+      'http://localhost:3001/upload-file-to-cloud-storage',
+      {
+        method: 'POST',
+        body: formData,
+      },
+    );
+    const responseWithBody = await response.json();
+    if (response.status === 200) {
+      navigate('/stars');
+    }
+    if (response.status !== 200) {
+      toast.error('Došlo je do pogreške!');
+    }
+
+    setIsDialogOpen(false);
+  };
+
+  // React.useEffect(() => {
+  //   if (isDialogOpen) {
+  //     // createRecaptcha();
+  //   }
+  // }, [isDialogOpen]);
+
+  const reset = () => {
+    setSeed(Math.random());
+  };
+
   return (
     <div class="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        {isDialogOpen && (
+          <DialogCaptcha
+            onCloseDialog={() => {
+              setIsDialogOpen(false);
+              reset();
+            }}
+            key={seed}
+            onSend={() => onAccept()}
+          />
+        )}
+
         <Inputs>
           <InputColumn1>
             <Row>
@@ -40,6 +93,7 @@ const Home = () => {
                 onSetValue={(text) => setSurame(text)}
                 placeholder={'Prezime'}
               />
+              <reCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY} />
             </Row>
             <Row>
               <UploadReceipt
@@ -59,11 +113,16 @@ const Home = () => {
                 width: dataIsComplete() ? '600px' : '600px',
               }}
             >
-              <Button disabled={!dataIsComplete()}>Lansiraj!</Button>
+              <Button
+                disabled={!dataIsComplete()}
+                onClick={() => setIsDialogOpen(!isDialogOpen)}
+              >
+                Lansiraj!
+              </Button>
             </Row>
           </InputColumn1>
           <InputColumn2>
-            {!dataIsComplete() ? (
+            {dataIsComplete() ? (
               <Scene>
                 <Rocket>
                   <img src={rocket} style={{ height: '45px' }}></img>
@@ -72,6 +131,20 @@ const Home = () => {
             ) : null}
           </InputColumn2>
         </Inputs>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        {/* Same as */}
+        <ToastContainer />
       </header>
     </div>
   );
@@ -121,12 +194,12 @@ const Button = styled.button`
   box-shadow 0.2s;
   border-radius: 6px;
 
-  :enabled{
+  &:enabled{
       color: #D90100;
       transition: 0.7s;
   }
 
-  :enabled:hover{
+  &:enabled:hover{
     background-color: white;
     transition: 0.7s;
 }
@@ -154,15 +227,6 @@ const animate = keyframes`
   }
 `;
 
-// const animate = keyframes`
-//   0% {
-//     transform: translateY(vh);
-//   }
-//   100% {
-//     transform: translateY(0);
-//   }
-// `;
-
 const Rocket = styled.div`
   animation-name: ${animate};
   animation-duration: 3s;
@@ -174,9 +238,9 @@ const Rocket = styled.div`
     bottom: -50px;
     left: 50%;
     transform: translateX(-50%);
-    width: 10px;
+    width: 5px;
     height: 50px;
-    background: white;
+    background: red;
   }
 
   &:after {
@@ -187,7 +251,7 @@ const Rocket = styled.div`
     transform: translateX(-50%);
     width: 10px;
     height: 50px;
-    background: white;
-    filter: blur(20px);
+    background: red;
+    filter: blur(10px);
   }
 `;

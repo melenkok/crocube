@@ -40,6 +40,7 @@ const UploadFiles = ({ onSetValue, placeholder }) => {
     const index = uploaded.findIndex((f) => f.name === id);
     if (index !== -1) {
       uploaded.splice(index, 1);
+      if (uploadedFiles.length === MAX_COUNT) setFileLimit(false)
       setUploadedFiles(uploaded);
     }
   };
@@ -48,7 +49,6 @@ const UploadFiles = ({ onSetValue, placeholder }) => {
     onSetValue(uploadedFiles);
   }, [uploadedFiles[0]]);
 
-  console.log(uploadedFiles);
   return (
     <>
       <label
@@ -76,7 +76,7 @@ const UploadFiles = ({ onSetValue, placeholder }) => {
         disabled={fileLimit}
       />
       {uploadedFiles.map((file) => (
-        <div style={{ lineHeight: '45px', width: '200px', display: 'flex' }}>
+        <div key={file.name} style={{ lineHeight: '45px', width: '200px', display: 'flex' }}>
           <div
             style={{
               lineHeight: '45px',
