@@ -48,12 +48,13 @@ const Root = styled.div`
   height: 100%;
   width: 100%;
   background-color: transparent;
+  min-width: 800px;
 `;
 
 const Title = styled.div`
   font-size: 36px;
   font-family: Mattone;
-  margin-top: 15em;
+  margin-top: 10em;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -91,6 +92,7 @@ const Scene = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+  min-width: 800px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -111,6 +113,7 @@ const Star = styled.div`
   right: 0;
   bottom: 0;
   width: 100%;
+  min-width: 800px;
   height: 100%;
   display: block;
   background-image: url('https://raw.githubusercontent.com/Carla-Codes/starry-night-css-animation/master/stars.png');
@@ -130,6 +133,7 @@ const Twinkling = styled.div`
   bottom: 0;
   width: 100%;
   height: 100%;
+  min-width: 800px;
   display: block;
   background: url('https://raw.githubusercontent.com/Carla-Codes/starry-night-css-animation/master/twinkling.png')
     repeat top center;
@@ -148,6 +152,7 @@ const Clouds = styled.div`
   bottom: 0;
   width: 100%;
   height: 100%;
+  min-width: 800px;
   display: block;
   background: transparent
     url('https://github.com/Carla-Codes/starry-night-css-animation/blob/master/clouds.png?raw=true')

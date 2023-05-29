@@ -40,6 +40,7 @@ const DialogCaptcha = ({ onCloseDialog, onSend }) => {
       // setValidToken(valid_token);
 
       if (valid_token[0].success === true) {
+        setIsDialogOpen(false);
         onAccept();
       } else {
         toast.error('Verifikacija neuspješna!');
