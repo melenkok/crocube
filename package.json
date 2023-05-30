@@ -4,7 +4,7 @@
   "description": "",
   "type": "commonjs",
   "engines": {
-    "node": "12.11.1"
+    "node": "18.16.0"
   },
   "main": "index.js",
   "scripts": {
