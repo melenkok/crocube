@@ -1,10 +1,8 @@
-
 const { Storage } = require('@google-cloud/storage');
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
-
 
 const cloudStorage = new Storage({
   keyFilename: process.env.KEYFILE,
