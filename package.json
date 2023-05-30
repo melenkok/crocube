@@ -2,7 +2,7 @@
   "name": "crocube",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
+  "type": "commonjs",
   "engines": {
     "node": "12.11.1"
   },
