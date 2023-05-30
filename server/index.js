@@ -37,7 +37,7 @@ app.post('/verify-token', async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Token successfully verified',
+      message: 'Token successfully verifiedd',
       verification_info: response.data,
     });
   } catch (error) {
