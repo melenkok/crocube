@@ -1,9 +1,10 @@
-const express = require('express');
-const { Storage } = require('@google-cloud/storage');
-const cors = require('cors');
-const Multer = require('multer');
 
-require('dotenv').config();
+const { Storage } = require('@google-cloud/storage');
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 
 const cloudStorage = new Storage({
   keyFilename: process.env.KEYFILE,
