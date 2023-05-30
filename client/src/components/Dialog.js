@@ -36,14 +36,19 @@ const DialogCaptcha = ({ onCloseDialog, onSend }) => {
     captchaRef.current.reset();
 
     if (token) {
-      let valid_token = await verifyToken(token);
-      // setValidToken(valid_token);
+      try {
+        let valid_token = await verifyToken(token);
 
-      if (valid_token[0].success === true) {
-        setIsDialogOpen(false);
-        onAccept();
-      } else {
+        if (valid_token[0].success === true) {
+          setIsDialogOpen(false);
+          onAccept();
+        } else {
+          toast.error('Verifikacija neuspješna!');
+          setIsDialogOpen(false);
+        }
+      } catch {
         toast.error('Verifikacija neuspješna!');
+        setIsDialogOpen(false);
       }
     }
   };

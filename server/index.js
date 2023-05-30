@@ -14,17 +14,10 @@ require('dotenv').config();
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
-    fileSize: 15 * 1024 * 1024, // no larger than 5mb, you can change as needed.
+    fileSize: 15 * 1024 * 1024, // no larger than 15mb, you can change as needed.
   },
 });
 app.use(cors());
-
-const cloudStorage = new Storage({
-  keyFilename: `${__dirname}/service_account_key.json`,
-  projectId: process.env.PROJECT_ID,
-});
-const bucketName = process.env.BUCKET_NAME;
-const bucket = cloudStorage.bucket(bucketName);
 
 app.post(
   '/upload-file-to-cloud-storage',

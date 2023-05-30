@@ -39,29 +39,28 @@ const Home = () => {
     formData.append('files', files[0]);
     formData.append('files', files[1]);
     formData.append('folderName', folderName);
-    const response = await fetch(
-      'http://localhost:3001/upload-file-to-cloud-storage',
-      {
-        method: 'POST',
-        body: formData,
-      },
-    );
-    const responseWithBody = await response.json();
-    if (response.status === 200) {
-      navigate('/stars');
-    }
-    if (response.status !== 200) {
+
+    try {
+      const response = await fetch(
+        'http://localhost:3001/upload-file-to-cloud-storage',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      );
+      if (response.status === 200) {
+        navigate('/stars');
+      }
+      if (response.status !== 200) {
+        toast.error('Došlo je do pogreške!');
+      }
+
+      setIsDialogOpen(false);
+    } catch (e) {
+      setIsDialogOpen(false);
       toast.error('Došlo je do pogreške!');
     }
-
-    setIsDialogOpen(false);
   };
-
-  // React.useEffect(() => {
-  //   if (isDialogOpen) {
-  //     // createRecaptcha();
-  //   }
-  // }, [isDialogOpen]);
 
   const reset = () => {
     setSeed(Math.random());

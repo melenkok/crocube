@@ -5,15 +5,8 @@ const Multer = require('multer');
 
 require('dotenv').config();
 
-// const multer = Multer({
-//   storage: Multer.memoryStorage(),
-//   limits: {
-//     fileSize: 15 * 1024 * 1024, // no larger than 5mb, you can change as needed.
-//   },
-// });
-
 const cloudStorage = new Storage({
-  keyFilename: `${__dirname}/../service_account_key.json`,
+  keyFilename: process.env.KEYFILE,
   projectId: process.env.PROJECT_ID,
 });
 const bucketName = process.env.BUCKET_NAME;
@@ -30,21 +23,13 @@ const uploadFile = (f, folderName) => {
       resumable: false,
     });
 
-    blobStream.on('error', (err) => {
-      res.status(500).send({ message: err.message });
+    blobStream.on('error', (err, res) => {
       reject(err);
     });
 
     blobStream.on('finish', async (data) => {
       const publicUrl = `https://storage.googleapis.com/${bucket.name}/${folderName}/${blob.name}`;
       resolve(publicUrl);
-      //   try {
-      //     await bucket.file(filename)
-      //     resolve(publicUrl);
-      //   } catch (err) {
-      //     console.log('failed to make it public');
-      //     reject(err);
-      //   }
     });
 
     blobStream.end(buffer);
@@ -52,19 +37,20 @@ const uploadFile = (f, folderName) => {
 };
 
 exports.upload = async (req, res) => {
-  const urlList = [];
-  //   await processFile(req, res); //multer
-
-  for (var i = 0; i < req.files.length; i++) {
-    if (!req.files[i]) {
-      return res.status(400).send({ message: 'Please upload a file!' });
+  try {
+    for (var i = 0; i < req.files.length; i++) {
+      if (!req.files[i]) {
+        return res.status(400).send({ message: 'Please upload a file!' });
+      }
+      await uploadFile(req.files[i], req.body.folderName);
     }
-    await uploadFile(req.files[i], req.body.folderName);
-  }
 
-  return res.status(200).send({
-    message: 'Uploaded the files successfully',
-  });
+    return res.status(200).send({
+      message: 'Uploaded the files successfully',
+    });
+  } catch {
+    res.status(500).send({ message: 'Error' });
+  }
 };
 
 // multer.array('files'),
