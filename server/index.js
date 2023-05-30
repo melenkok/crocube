@@ -2,7 +2,7 @@ const express = require('express');
 const { Storage } = require('@google-cloud/storage');
 const cors = require('cors');
 const Multer = require('multer');
-const axios = require('axios');
+import axios from './lib/axios.js';
 const uploadController = require('./controllers/uploadController');
 
 const PORT = process.env.PORT || 3001;
