@@ -11,6 +11,8 @@ const app = express();
 app.use(express.json());
 require('dotenv').config();
 
+app.use(express.static('../client/build'));
+
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
@@ -46,6 +48,14 @@ app.post('/verify-token', async (req, res) => {
       message: 'Error verifying token',
     });
   }
+});
+
+const path = require('path');
+
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
 
 app.get('/api', (req, res) => {
