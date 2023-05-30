@@ -52,10 +52,10 @@ app.post('/verify-token', async (req, res) => {
 
 const path = require('path');
 
-app.use(express.static(path.join('./public/build')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join('./public/build/index.html'));
+  res.sendFile(path.join(__dirname, 'public'));
 });
 
 app.get('/api', (req, res) => {
