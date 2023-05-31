@@ -2,7 +2,7 @@ const express = require('express');
 const { Storage } = require('@google-cloud/storage');
 const cors = require('cors');
 const Multer = require('multer');
-// const axios = require('axios');
+const axios = require('axios');
 const uploadController = require('./controllers/uploadController');
 
 const PORT = process.env.PORT || 3001;
@@ -34,9 +34,9 @@ app.post('/verify-token', async (req, res) => {
   const { token, secret_key } = req.body;
 
   try {
-    // let response = await axios.post(
-    //   `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${token}`,
-    // );
+    let response = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${token}`,
+    );
 
     return res.status(200).json({
       success: true,
@@ -58,7 +58,7 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/api', (req, res) => {
@@ -67,5 +67,4 @@ app.get('/api', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
-  console.log(path.join(__dirname + '/public'));
 });
