@@ -16,6 +16,7 @@ const Home = () => {
   const [surname, setSurame] = React.useState('');
   const [receipt, setReceipt] = React.useState(null);
   const [files, setFiles] = React.useState([]);
+  const appUri = process.env.REACT_APP_API_URI;
 
   const [seed, setSeed] = React.useState([]);
 
@@ -42,7 +43,8 @@ const Home = () => {
 
     try {
       const response = await fetch(
-        'http://localhost:3001/upload-file-to-cloud-storage',
+        `${appUri}/upload-file-to-cloud-storage`,
+
         {
           method: 'POST',
           body: formData,
