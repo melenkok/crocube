@@ -43,7 +43,7 @@ const Home = () => {
 
     try {
       const response = await fetch(
-        `${appUri}/upload-file-to-cloud-storage`,
+        `/upload-file-to-cloud-storage`,
 
         {
           method: 'POST',

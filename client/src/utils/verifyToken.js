@@ -10,7 +10,7 @@ const verifyToken = async (token) => {
     formData.append('token', token);
     formData.append('secret_key', process.env.REACT_APP_SECRET_KEY);
 
-    let response = await Axios.post(`${appUri}/verify-token`, {
+    let response = await Axios.post(`/verify-token`, {
       token: token,
       secret_key: process.env.REACT_APP_SECRET_KEY,
     });
