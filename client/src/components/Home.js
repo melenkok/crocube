@@ -51,7 +51,7 @@ const Home = () => {
         },
       );
       if (response.status === 200) {
-        navigate('/stars');
+        navigate('/success');
       }
       if (response.status !== 200) {
         toast.error('Došlo je do pogreške!');

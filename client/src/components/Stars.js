@@ -30,9 +30,10 @@ const Stars = () => {
               zIndex: '10',
               transform: 'rotate(90deg)',
               color: 'white',
-              margin: '80px',
+              margin: '100px',
               alignContent: 'center',
               pointerEvents: 'auto',
+              fontFamily: 'Mattone',
             }}
           >
             Povratak

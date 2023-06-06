@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tooltip } from '@mui/material';
 
 const MAX_COUNT = 2;
 
@@ -40,9 +41,13 @@ const UploadFiles = ({ onSetValue, placeholder }) => {
     const index = uploaded.findIndex((f) => f.name === id);
     if (index !== -1) {
       uploaded.splice(index, 1);
-      if (uploadedFiles.length === MAX_COUNT) setFileLimit(false)
+      if (uploadedFiles.length === MAX_COUNT) setFileLimit(false);
       setUploadedFiles(uploaded);
     }
+  };
+
+  const onInputClick = (event) => {
+    event.target.value = '';
   };
 
   React.useEffect(() => {
@@ -51,22 +56,27 @@ const UploadFiles = ({ onSetValue, placeholder }) => {
 
   return (
     <>
-      <label
-        for="multipleFiles"
-        className="p-button p-component"
-        style={{
-          fontFamily: 'Mattone',
-          backgroundColor: 'white',
-          color: '#D90100',
-          width: '150px',
-        }}
+      <Tooltip
+        title={'Dodaj do dvije datoteke ukupne velicine do 10MB!'}
+        placement="right-start"
       >
-        <span
-          style={{ marginRight: '5px' }}
-          className="pi pi-fw pi-plus"
-        ></span>
-        {placeholder}
-      </label>
+        <label
+          for="multipleFiles"
+          className="p-button p-component"
+          style={{
+            fontFamily: 'Mattone',
+            backgroundColor: 'white',
+            color: '#D90100',
+            width: '150px',
+          }}
+        >
+          <span
+            style={{ marginRight: '5px' }}
+            className="pi pi-fw pi-plus"
+          ></span>
+          {placeholder}
+        </label>
+      </Tooltip>
       <input
         id="multipleFiles"
         type="file"
@@ -74,9 +84,13 @@ const UploadFiles = ({ onSetValue, placeholder }) => {
         style={{ display: 'none' }}
         multiple
         disabled={fileLimit}
+        onClick={onInputClick}
       />
       {uploadedFiles.map((file) => (
-        <div key={file.name} style={{ lineHeight: '45px', width: '200px', display: 'flex' }}>
+        <div
+          key={file.name}
+          style={{ lineHeight: '45px', width: '200px', display: 'flex' }}
+        >
           <div
             style={{
               lineHeight: '45px',
