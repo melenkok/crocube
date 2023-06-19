@@ -2,6 +2,7 @@ import React from 'react';
 import { Tooltip } from '@mui/material';
 
 const MAX_COUNT = 2;
+const MAX_SIZE = 10 * 1024 * 1024;
 
 const UploadFiles = ({ onSetValue, placeholder }) => {
   const [uploadedFiles, setUploadedFiles] = React.useState([]);
@@ -19,11 +20,20 @@ const UploadFiles = ({ onSetValue, placeholder }) => {
     files.some((file) => {
       if (uploaded.findIndex((f) => f.name === file.name) === -1) {
         uploaded.push(file);
+        const uploadedSize = uploaded
+          .map((e) => e.size)
+          .reduce((a, b) => a + b, 0);
         if (uploaded.length === MAX_COUNT) setFileLimit(true);
         if (uploaded.length > MAX_COUNT) {
           alert(`Dozvoljene su do dvije datoteke!`);
           setFileLimit(false);
           limitExceeded = true;
+          return true;
+        }
+        if (uploadedSize > MAX_SIZE) {
+          limitExceeded = true;
+          setFileLimit(false);
+          alert(`Datoteke premašuju dozvoljenu veličinu!`);
           return true;
         }
       }
