@@ -13,10 +13,12 @@ import { gdpr, gdprheadline } from '../assets/gdpr';
 import verifyToken from '../utils/verifyToken';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const DialogCaptcha = ({ onCloseDialog, onSend }) => {
   const captchaRef = useRef(null);
   const [seed, setSeed] = React.useState([]);
+  const [isSpinnerActive, setIsSpinnerActive] = React.useState(false);
 
   const reset = () => {
     setSeed(Math.random());
@@ -40,7 +42,7 @@ const DialogCaptcha = ({ onCloseDialog, onSend }) => {
         let valid_token = await verifyToken(token);
 
         if (valid_token[0].success === true) {
-          setIsDialogOpen(false);
+          setIsSpinnerActive(true);
           onAccept();
         } else {
           toast.error('Verifikacija neuspješna!');
@@ -59,6 +61,11 @@ const DialogCaptcha = ({ onCloseDialog, onSend }) => {
     } else {
       return false;
     }
+  };
+
+  const override = {
+    display: 'block',
+    marginLeft: '10px',
   };
 
   return (
@@ -87,10 +94,17 @@ const DialogCaptcha = ({ onCloseDialog, onSend }) => {
 
         {/* <reCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY} /> */}
       </DialogContent>
-
-      <DialogActions>
+      <DialogActions style={{ justifyContent: 'flex-end' }}>
         <Button disabled={false} onClick={() => handleSubmit()}>
           Prihvaćam
+          <ClipLoader
+            color={'red'}
+            loading={isSpinnerActive}
+            cssOverride={override}
+            size={20}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
         </Button>
       </DialogActions>
       <ToastContainer
@@ -114,7 +128,7 @@ export default DialogCaptcha;
 const Button = styled.button`
   font-family: Mattone;
   background-color: white;
-  width: 200px;
+  width: 180px;
   color: gray;
   cursor: pointer;
   border: 1px solid white;
@@ -122,6 +136,8 @@ const Button = styled.button`
   font-size: 1rem;
   box-shadow 0.2s;
   border-radius: 6px;
+  display: flex;
+  justify-content: center;
 
   &:enabled{
       color: #D90100;
