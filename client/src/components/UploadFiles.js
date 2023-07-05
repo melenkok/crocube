@@ -67,7 +67,7 @@ const UploadFiles = ({ onSetValue, placeholder }) => {
   return (
     <>
       <Tooltip
-        title={'Dodaj do dvije datoteke ukupne velicine do 10MB!'}
+        title={'Dodaj do dvije datoteke ukupne veličine do 10MB!'}
         placement="right-start"
       >
         <label

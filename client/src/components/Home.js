@@ -1,11 +1,12 @@
 import React from 'react';
 import '../App.css';
-import logo from '../assets/logo.png';
+// import logo from '../assets/logo.png';
 import InputTextArea from './InputTextArea';
 import UploadReceipt from './UploadReceipt';
 import styled, { keyframes } from 'styled-components';
 import UploadFiles from './UploadFiles';
 import rocket from '../assets/rocket.png';
+import logo from '../assets/logo.svg';
 import DialogCaptcha from './Dialog';
 import { useNavigate } from 'react-router';
 import { ToastContainer, toast } from 'react-toastify';
@@ -71,7 +72,14 @@ const Home = () => {
   return (
     <div class="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <Star></Star>
+        <Twinkling></Twinkling>
+        <img
+          src={logo}
+          className="App-logo"
+          alt="logo"
+          style={{ zIndex: '10' }}
+        />
         {isDialogOpen && (
           <DialogCaptcha
             onCloseDialog={() => {
@@ -158,6 +166,7 @@ const Inputs = styled.div`
   margin-top: 30px;
   display: flex;
   flex-direction: row;
+  z-index: 10;
 `;
 
 const InputColumn1 = styled.div`
@@ -255,4 +264,51 @@ const Rocket = styled.div`
     background: red;
     filter: blur(10px);
   }
+`;
+
+const twinkBack = keyframes`
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position:-10000px 5000px;
+  }
+`;
+
+const Star = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  min-width: 800px;
+  height: 100%;
+  display: block;
+  background-image: url('https://raw.githubusercontent.com/Carla-Codes/starry-night-css-animation/master/stars.png');
+  background-position: center; /* Center the image */
+  background-repeat: repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  background-color: black;
+
+  z-index: 0;
+`;
+
+const Twinkling = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 800px;
+  display: block;
+  background: url('https://raw.githubusercontent.com/Carla-Codes/starry-night-css-animation/master/twinkling.png')
+    repeat top center;
+  backrgound-color: transparent;
+  z-index: 1;
+  animation-name: ${twinkBack};
+  animation-duration: 200s;
+  animation-iteration-count: infinite;
 `;

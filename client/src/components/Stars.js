@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from '../assets/logo.png';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router';
 import rocket from '../assets/rocket.png';
