@@ -11,13 +11,18 @@ import DialogCaptcha from './Dialog';
 import { useNavigate } from 'react-router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useMediaQuery } from 'react-responsive';
+import MediaQuery from 'react-responsive';
 
 const Home = () => {
   const [name, setName] = React.useState('');
   const [surname, setSurame] = React.useState('');
   const [receipt, setReceipt] = React.useState(null);
   const [files, setFiles] = React.useState([]);
-  const appUri = process.env.REACT_APP_API_URI;
+
+  const isDesktop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const [seed, setSeed] = React.useState([]);
 
@@ -71,90 +76,189 @@ const Home = () => {
 
   return (
     <div class="App">
-      <header className="App-header">
-        <Star></Star>
-        <Twinkling></Twinkling>
-        <img
-          src={logo}
-          className="App-logo"
-          alt="logo"
-          style={{ zIndex: '10' }}
-        />
-        {isDialogOpen && (
-          <DialogCaptcha
-            onCloseDialog={() => {
-              setIsDialogOpen(false);
-              reset();
-            }}
-            key={seed}
-            onSend={() => onAccept()}
+      {isDesktop && (
+        <header className="App-header">
+          <Star></Star>
+          <Twinkling></Twinkling>
+          <img
+            src={logo}
+            className="App-logo"
+            alt="logo"
+            style={{ zIndex: '10' }}
           />
-        )}
+          {isDialogOpen && (
+            <DialogCaptcha
+              onCloseDialog={() => {
+                setIsDialogOpen(false);
+                reset();
+              }}
+              key={seed}
+              onSend={() => onAccept()}
+            />
+          )}
 
-        <Inputs>
-          <InputColumn1>
-            <Row>
+          <Inputs>
+            <InputColumn1 style={{ height: '320px' }}>
+              <Row>
+                <InputTextArea
+                  onSetValue={(text) => setName(text)}
+                  placeholder={'Ime'}
+                />
+                <InputTextArea
+                  onSetValue={(text) => setSurame(text)}
+                  placeholder={'Prezime'}
+                />
+                <reCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY} />
+              </Row>
+              <Row>
+                <UploadReceipt
+                  placeholder={'Račun'}
+                  onSetValue={(file) => setReceipt(file)}
+                />
+              </Row>
+              <Row>
+                <UploadFiles
+                  placeholder={'Datoteke'}
+                  onSetValue={(files) => setFiles(files)}
+                />
+              </Row>
+              <Row
+                style={{
+                  justifyContent: 'end',
+                  width: dataIsComplete() ? '600px' : '600px',
+                }}
+              >
+                <Button
+                  disabled={!dataIsComplete()}
+                  onClick={() => setIsDialogOpen(!isDialogOpen)}
+                >
+                  Lansiraj!
+                </Button>
+              </Row>
+            </InputColumn1>
+            <InputColumn2>
+              {dataIsComplete() ? (
+                <Scene>
+                  <Rocket>
+                    <img src={rocket} style={{ height: '45px' }}></img>
+                  </Rocket>
+                </Scene>
+              ) : null}
+            </InputColumn2>
+          </Inputs>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+          {/* Same as */}
+          <ToastContainer />
+        </header>
+      )}
+      {!isDesktop && (
+        <header className="App-header">
+          <Star></Star>
+          <Twinkling></Twinkling>
+          <img
+            src={logo}
+            className="App-logo"
+            alt="logo"
+            style={{ zIndex: '10' }}
+          />
+          {isDialogOpen && (
+            <DialogCaptcha
+              onCloseDialog={() => {
+                setIsDialogOpen(false);
+                reset();
+              }}
+              key={seed}
+              onSend={() => onAccept()}
+            />
+          )}
+
+          <Inputs style={{ width: '300px', justifyContent: 'center' }}>
+            <InputColumn1 style={{ width: '300px', alignItems: 'start' }}>
               <InputTextArea
                 onSetValue={(text) => setName(text)}
                 placeholder={'Ime'}
               />
+              <div style={{ height: '25px' }}></div>
               <InputTextArea
                 onSetValue={(text) => setSurame(text)}
                 placeholder={'Prezime'}
               />
+              <div style={{ height: '25px' }}></div>
               <reCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY} />
-            </Row>
-            <Row>
+
               <UploadReceipt
                 placeholder={'Račun'}
                 onSetValue={(file) => setReceipt(file)}
               />
-            </Row>
-            <Row>
+              <div style={{ height: '25px' }}></div>
+
               <UploadFiles
                 placeholder={'Datoteke'}
                 onSetValue={(files) => setFiles(files)}
               />
-            </Row>
-            <Row
-              style={{
-                justifyContent: 'end',
-                width: dataIsComplete() ? '600px' : '600px',
-              }}
-            >
-              <Button
-                disabled={!dataIsComplete()}
-                onClick={() => setIsDialogOpen(!isDialogOpen)}
+              <div style={{ height: '10px' }}></div>
+
+              <Row
+                style={{
+                  justifyContent: 'end',
+                  alignContent: 'end',
+                  width: dataIsComplete() ? '300px' : '300px',
+                  height: '50px',
+                }}
               >
-                Lansiraj!
-              </Button>
-            </Row>
-          </InputColumn1>
-          <InputColumn2>
-            {dataIsComplete() ? (
-              <Scene>
-                <Rocket>
-                  <img src={rocket} style={{ height: '45px' }}></img>
-                </Rocket>
-              </Scene>
-            ) : null}
-          </InputColumn2>
-        </Inputs>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-        {/* Same as */}
-        <ToastContainer />
-      </header>
+                <Button
+                  disabled={!dataIsComplete()}
+                  onClick={() => setIsDialogOpen(!isDialogOpen)}
+                  style={{ height: '45px', marginRight: '15px' }}
+                >
+                  Lansiraj!
+                </Button>
+                {dataIsComplete() ? (
+                  <Scene style={{ justifyContent: 'start' }}>
+                    <Rocket>
+                      <img src={rocket} style={{ height: '45px' }}></img>
+                    </Rocket>
+                  </Scene>
+                ) : null}
+              </Row>
+            </InputColumn1>
+            {/* <InputColumn2 style={{ height: '300px' }}>
+              {dataIsComplete() ? (
+                <Scene>
+                  <Rocket>
+                    <img src={rocket} style={{ height: '45px' }}></img>
+                  </Rocket>
+                </Scene>
+              ) : null}
+            </InputColumn2> */}
+          </Inputs>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+
+          <ToastContainer />
+        </header>
+      )}
     </div>
   );
 };
@@ -172,7 +276,6 @@ const Inputs = styled.div`
 const InputColumn1 = styled.div`
   width: 600px;
   display: flex;
-  height: 320px;
   flex-direction: column;
   justify-content: end;
 `;
@@ -282,7 +385,6 @@ const Star = styled.div`
   right: 0;
   bottom: 0;
   width: 100%;
-  min-width: 800px;
   height: 100%;
   display: block;
   background-image: url('https://raw.githubusercontent.com/Carla-Codes/starry-night-css-animation/master/stars.png');
@@ -302,7 +404,6 @@ const Twinkling = styled.div`
   bottom: 0;
   width: 100%;
   height: 100%;
-  min-width: 800px;
   display: block;
   background: url('https://raw.githubusercontent.com/Carla-Codes/starry-night-css-animation/master/twinkling.png')
     repeat top center;

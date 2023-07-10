@@ -1,5 +1,7 @@
 import React from 'react';
 import { Tooltip } from '@mui/material';
+import { useMediaQuery } from 'react-responsive';
+import styled, { keyframes } from 'styled-components';
 
 const MAX_COUNT = 2;
 const MAX_SIZE = 10 * 1024 * 1024;
@@ -7,6 +9,10 @@ const MAX_SIZE = 10 * 1024 * 1024;
 const UploadFiles = ({ onSetValue, placeholder }) => {
   const [uploadedFiles, setUploadedFiles] = React.useState([]);
   const [fileLimit, setFileLimit] = React.useState(false);
+
+  const isDesktop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   //   const handleFileChange = (e) => {
   //     if (e.target.files) {
@@ -66,27 +72,51 @@ const UploadFiles = ({ onSetValue, placeholder }) => {
 
   return (
     <>
-      <Tooltip
-        title={'Dodaj do dvije datoteke ukupne veličine do 10MB!'}
-        placement="right-start"
-      >
-        <label
-          for="multipleFiles"
-          className="p-button p-component"
-          style={{
-            fontFamily: 'Mattone',
-            backgroundColor: 'white',
-            color: '#D90100',
-            width: '150px',
-          }}
+      {isDesktop && (
+        <Tooltip
+          title={'Dodaj do dvije datoteke ukupne veličine do 10MB!'}
+          placement="right-start"
         >
-          <span
-            style={{ marginRight: '5px' }}
-            className="pi pi-fw pi-plus"
-          ></span>
-          {placeholder}
-        </label>
-      </Tooltip>
+          <label
+            for="multipleFiles"
+            className="p-button p-component"
+            style={{
+              fontFamily: 'Mattone',
+              backgroundColor: 'white',
+              color: '#D90100',
+              width: '150px',
+            }}
+          >
+            <span
+              style={{ marginRight: '5px' }}
+              className="pi pi-fw pi-plus"
+            ></span>
+            {placeholder}
+          </label>
+        </Tooltip>
+      )}
+      {!isDesktop && (
+        <Row>
+          <label
+            for="multipleFiles"
+            className="p-button p-component"
+            style={{
+              fontFamily: 'Mattone',
+              backgroundColor: 'white',
+              color: '#D90100',
+              width: '150px',
+              height: '45px',
+            }}
+          >
+            <span
+              style={{ marginRight: '5px' }}
+              className="pi pi-fw pi-plus"
+            ></span>
+            {placeholder}
+          </label>
+          <Text>Dodaj do dvije datoteke ukupne veličine do 10MB!</Text>
+        </Row>
+      )}
       <input
         id="multipleFiles"
         type="file"
@@ -126,3 +156,15 @@ const UploadFiles = ({ onSetValue, placeholder }) => {
 };
 
 export default UploadFiles;
+
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+`;
+
+const Text = styled.div`
+  width: 150px;
+  font-size: 11px;
+  font-family: Mattone;
+`;

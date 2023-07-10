@@ -2,43 +2,84 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router';
 import rocket from '../assets/rocket.png';
+import { useMediaQuery } from 'react-responsive';
 
 const Stars = () => {
   const navigate = useNavigate();
+
+  const isDesktop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
   return (
     <html>
-      <Root>
-        <Title>Uspješno lansirano!</Title>
-        <Star></Star>
-        <Twinkling></Twinkling>
-        <Clouds></Clouds>
-        <Scene onClick={() => navigate('/')}>
-          <Rocket>
-            <img
-              src={rocket}
+      {isDesktop && (
+        <Root widthScreen={'800px'}>
+          <Title>Uspješno lansirano!</Title>
+          <Star></Star>
+          <Twinkling></Twinkling>
+          <Clouds></Clouds>
+          <Scene widthScreen={'800px'} onClick={() => navigate('/')}>
+            <Rocket>
+              <img
+                src={rocket}
+                style={{
+                  height: '45px',
+                  zIndex: '10',
+                  pointerEvents: 'stroke',
+                }}
+              ></img>
+            </Rocket>
+            <div
               style={{
-                height: '45px',
+                height: '60px',
                 zIndex: '10',
-                pointerEvents: 'stroke',
+                transform: 'rotate(90deg)',
+                color: 'white',
+                margin: '100px',
+                alignContent: 'center',
+                pointerEvents: 'auto',
+                fontFamily: 'Mattone',
               }}
-            ></img>
-          </Rocket>
-          <div
-            style={{
-              height: '60px',
-              zIndex: '10',
-              transform: 'rotate(90deg)',
-              color: 'white',
-              margin: '100px',
-              alignContent: 'center',
-              pointerEvents: 'auto',
-              fontFamily: 'Mattone',
-            }}
-          >
-            Povratak
-          </div>
-        </Scene>
-      </Root>
+            >
+              Povratak
+            </div>
+          </Scene>
+        </Root>
+      )}
+      {!isDesktop && (
+        <Root widthScreen={'300px'}>
+          <Title>Uspješno lansirano!</Title>
+          <Star></Star>
+          <Twinkling></Twinkling>
+          <Clouds></Clouds>
+          <Scene widthScreen={'300px'} onClick={() => navigate('/')}>
+            <Rocket>
+              <img
+                src={rocket}
+                style={{
+                  height: '45px',
+                  zIndex: '10',
+                  pointerEvents: 'stroke',
+                }}
+              ></img>
+            </Rocket>
+            <div
+              style={{
+                height: '60px',
+                zIndex: '10',
+                transform: 'rotate(90deg)',
+                color: 'white',
+                margin: '100px',
+                alignContent: 'center',
+                pointerEvents: 'auto',
+                fontFamily: 'Mattone',
+              }}
+            >
+              Povratak
+            </div>
+          </Scene>
+        </Root>
+      )}
     </html>
   );
 };
@@ -48,7 +89,7 @@ const Root = styled.div`
   height: 100%;
   width: 100%;
   background-color: transparent;
-  min-width: 800px;
+  min-width: ${(props) => props.widthScreen || '800px'};
 `;
 
 const Title = styled.div`
@@ -92,7 +133,7 @@ const Scene = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  min-width: 800px;
+  min-width: ${(props) => props.widthScreen || '800px'};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -113,7 +154,7 @@ const Star = styled.div`
   right: 0;
   bottom: 0;
   width: 100%;
-  min-width: 800px;
+  min-width: ${(props) => props.widthScreen || '100%'};
   height: 100%;
   display: block;
   background-image: url('https://raw.githubusercontent.com/Carla-Codes/starry-night-css-animation/master/stars.png');
@@ -133,7 +174,7 @@ const Twinkling = styled.div`
   bottom: 0;
   width: 100%;
   height: 100%;
-  min-width: 800px;
+  min-width: ${(props) => props.widthScreen || '100%'};
   display: block;
   background: url('https://raw.githubusercontent.com/Carla-Codes/starry-night-css-animation/master/twinkling.png')
     repeat top center;
@@ -152,7 +193,7 @@ const Clouds = styled.div`
   bottom: 0;
   width: 100%;
   height: 100%;
-  min-width: 800px;
+  min-width: ${(props) => props.widthScreen || '100%'};
   display: block;
   background: transparent
     url('https://github.com/Carla-Codes/starry-night-css-animation/blob/master/clouds.png?raw=true')

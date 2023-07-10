@@ -10,6 +10,7 @@ function App() {
       <Route path="/" element={<Home />} />
       {/* <Route path="/success" element={<Uploaded />} /> */}
       <Route path="/success" element={<Stars />} />
+      <Route path="*" element={<Home />} />
     </Routes>
   );
 }
