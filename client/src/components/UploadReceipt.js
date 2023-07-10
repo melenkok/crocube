@@ -54,7 +54,7 @@ const UploadReceipt = ({ onSetValue, placeholder }) => {
       {!isDesktop && (
         <Row>
           <label
-            for="multipleFiles"
+            for="idoti"
             className="p-button p-component"
             style={{
               fontFamily: 'Mattone',
