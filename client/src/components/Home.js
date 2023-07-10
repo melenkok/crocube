@@ -220,17 +220,23 @@ const Home = () => {
                 <Button
                   disabled={!dataIsComplete()}
                   onClick={() => setIsDialogOpen(!isDialogOpen)}
-                  style={{ height: '45px', marginRight: '15px' }}
+                  style={{
+                    height: '45px',
+                    marginRight: '15px',
+                    width: '150px',
+                  }}
                 >
                   Lansiraj!
                 </Button>
-                {dataIsComplete() ? (
-                  <Scene style={{ justifyContent: 'start' }}>
-                    <Rocket>
-                      <img src={rocket} style={{ height: '45px' }}></img>
-                    </Rocket>
-                  </Scene>
-                ) : null}
+                <div>
+                  {dataIsComplete() ? (
+                    <Scene style={{ justifyContent: 'start' }}>
+                      <Rocket>
+                        <img src={rocket} style={{ height: '45px' }}></img>
+                      </Rocket>
+                    </Scene>
+                  ) : null}
+                </div>
               </Row>
             </InputColumn1>
             {/* <InputColumn2 style={{ height: '300px' }}>
@@ -268,6 +274,7 @@ export default Home;
 const Inputs = styled.div`
   width: 600px;
   margin-top: 30px;
+  margin-bottom: 30px;
   display: flex;
   flex-direction: row;
   z-index: 10;
