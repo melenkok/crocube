@@ -114,14 +114,15 @@ export default UploadReceipt;
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 0px;
 `;
 
 const Text = styled.div`
-  width: 150px;
-  font-size: 11px;
+  width: 120px;
+  font-size: 10px;
   font-family: Mattone;
   height: 45px;
   display: flex;
   align: center;
+  padding: 8px;
 `;

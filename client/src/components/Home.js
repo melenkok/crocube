@@ -110,18 +110,21 @@ const Home = () => {
                 />
                 <reCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY} />
               </Row>
+              <div style={{ height: '25px' }}></div>
               <Row>
                 <UploadReceipt
                   placeholder={'Račun'}
                   onSetValue={(file) => setReceipt(file)}
                 />
               </Row>
+              <div style={{ height: '25px' }}></div>
               <Row>
                 <UploadFiles
                   placeholder={'Datoteke'}
                   onSetValue={(files) => setFiles(files)}
                 />
               </Row>
+              <div style={{ height: '25px' }}></div>
               <Row
                 style={{
                   justifyContent: 'end',
@@ -183,16 +186,18 @@ const Home = () => {
             />
           )}
 
-          <Inputs style={{ width: '300px', justifyContent: 'center' }}>
-            <InputColumn1 style={{ width: '300px', alignItems: 'start' }}>
+          <Inputs style={{ width: '280px', justifyContent: 'center' }}>
+            <InputColumn1 style={{ width: '280px', alignItems: 'start' }}>
               <InputTextArea
                 onSetValue={(text) => setName(text)}
                 placeholder={'Ime'}
+                style={{ width: '280px' }}
               />
               <div style={{ height: '25px' }}></div>
               <InputTextArea
                 onSetValue={(text) => setSurame(text)}
                 placeholder={'Prezime'}
+                style={{ width: '280px' }}
               />
               <div style={{ height: '25px' }}></div>
               <reCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY} />
@@ -207,13 +212,12 @@ const Home = () => {
                 placeholder={'Datoteke'}
                 onSetValue={(files) => setFiles(files)}
               />
-              <div style={{ height: '10px' }}></div>
+              <div style={{ height: '25px' }}></div>
 
               <Row
                 style={{
                   justifyContent: 'end',
                   alignContent: 'end',
-                  width: dataIsComplete() ? '300px' : '300px',
                   height: '50px',
                 }}
               >
@@ -222,15 +226,16 @@ const Home = () => {
                   onClick={() => setIsDialogOpen(!isDialogOpen)}
                   style={{
                     height: '45px',
-                    marginRight: '15px',
-                    width: '150px',
+                    width: '260px',
                   }}
                 >
                   Lansiraj!
                 </Button>
-                <div>
+                <div style={{ width: '50px' }}>
                   {dataIsComplete() ? (
-                    <Scene style={{ justifyContent: 'start' }}>
+                    <Scene
+                      style={{ justifyContent: 'start', marginLeft: '15px' }}
+                    >
                       <Rocket>
                         <img src={rocket} style={{ height: '45px' }}></img>
                       </Rocket>
@@ -299,7 +304,7 @@ const InputColumn2 = styled.div`
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 0px;
 `;
 
 const Button = styled.button`
